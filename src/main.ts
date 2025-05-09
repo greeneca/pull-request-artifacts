@@ -4,6 +4,7 @@ import {context} from '@actions/github'
 import {Octokit} from '@octokit/rest'
 import path from 'path'
 import {toMarkdown} from './markdown'
+import glob from 'tiny-glob'
 
 async function run(): Promise<void> {
   try {
@@ -207,7 +208,21 @@ Commit: ${repo_url}/commit/${commit_sha}
 `
     }
 
+    let expandedArtifactList = []
     for (let artifact of artifact_list.split(/\s+/)) {
+      artifact = artifact.trim()
+
+      if (artifact.indexOf('*') != 0) {
+        const files = await glob(artifact)
+        for (const file of files) {
+          expandedArtifactList.push(file)
+        }
+      } else {
+        expandedArtifactList.push(artifact)
+      }
+    }
+
+    for (let artifact of expandedArtifactList) {
       artifact = artifact.trim()
 
       core.info(`Processing artifact: ${artifact}`)
