@@ -199,7 +199,7 @@ Commit: ${repo_url}/commit/${commit_sha}
 
     let comment_body = `## ${comment_title}\n`
 
-    if (comment_message) {
+    if (comment_message && comment_message.length != 0) {
       comment_body += `${comment_message}\n`
     }
 

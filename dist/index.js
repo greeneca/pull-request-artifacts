@@ -180,7 +180,7 @@ Pull request: ${repo_url}/pull/${github_1.context.issue.number}
 Commit: ${repo_url}/commit/${commit_sha}
 `;
                 }
-                yield artifacts_octokit.rest.repos.createOrUpdateFileContents({
+                const response = yield artifacts_octokit.rest.repos.createOrUpdateFileContents({
                     owner: artifacts_owner,
                     repo: artifacts_repo,
                     path: file_path,
@@ -189,6 +189,7 @@ Commit: ${repo_url}/commit/${commit_sha}
                     branch: artifacts_branch,
                     sha: old_sha
                 });
+                core.info(`Response: ${JSON.stringify(response.data)}`);
                 const artifacts_repo_url = `https://github.com/${artifacts_owner}/${artifacts_repo}`;
                 return `${artifacts_repo_url}/blob/${artifacts_branch}/${file_path}?raw=true`;
             });
@@ -202,7 +203,7 @@ Commit: ${repo_url}/commit/${commit_sha}
             }
             core.info(`Artifacts prefix: "${target_prefix}"`);
             let comment_body = `## ${comment_title}\n`;
-            if (comment_message) {
+            if (comment_message && comment_message.length != 0) {
                 comment_body += `${comment_message}\n`;
             }
             if (comment_style === 'table') {
