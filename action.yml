@@ -45,7 +45,7 @@ inputs:
     required: false
   comment-title:
     description: 'Header to add to comment in the PR'
-    default: '🤖 Pull request artifacts'
+    default: '🤖 Pull Request Artifacts'
     required: false
   comment-message:
     description: 'Message to add to comment in the PR. Will be visible before the artifacts'
