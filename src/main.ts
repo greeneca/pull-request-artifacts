@@ -253,7 +253,7 @@ Commit: ${repo_url}/commit/${commit_sha}
       comment_body += `\nsynchronized with ${commit_sha}`
     }
 
-    if (post_comment) {
+    if (post_comment && expandedArtifactList.length > 0) {
       const comment_id = await findComment(comment_title)
       if (comment_id) {
         await updateComment(comment_id, comment_body)
