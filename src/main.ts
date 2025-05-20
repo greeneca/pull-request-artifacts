@@ -253,6 +253,10 @@ Commit: ${repo_url}/commit/${commit_sha}
       comment_body += `\nsynchronized with ${commit_sha}`
     }
 
+    core.info(`Artifact count: ${expandedArtifactList.length}`);
+    expandedArtifactList.forEach((artifact) => {
+        core.info(`Artifact: ${artifact}`)
+    });
     if (post_comment && expandedArtifactList.length > 0) {
       const comment_id = await findComment(comment_title)
       if (comment_id) {
