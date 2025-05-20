@@ -203,7 +203,7 @@ Commit: ${repo_url}/commit/${commit_sha}
             }
             core.info(`Artifacts prefix: "${target_prefix}"`);
             let comment_body = `## ${comment_title}\n`;
-            if (comment_message && comment_message.length != 0) {
+            if (comment_message && comment_message != 'empty string') {
                 comment_body += `${comment_message}\n`;
             }
             if (comment_style === 'table') {
@@ -243,7 +243,11 @@ Commit: ${repo_url}/commit/${commit_sha}
             if (comment_style === 'list') {
                 comment_body += `\nsynchronized with ${commit_sha}`;
             }
-            if (post_comment) {
+            core.info(`Artifact count: ${expandedArtifactList.length}`);
+            expandedArtifactList.forEach((artifact) => {
+                core.info(`Artifact: ${artifact}`);
+            });
+            if (post_comment && expandedArtifactList.length > 0) {
                 const comment_id = yield findComment(comment_title);
                 if (comment_id) {
                     yield updateComment(comment_id, comment_body);
